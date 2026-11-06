@@ -2,7 +2,7 @@
 
 Backend API for ScanLens, built with NestJS, TypeScript, Prisma, and PostgreSQL. It handles authentication, scan requests, subscription rules, reports, and background scan jobs using BullMQ and Redis.
 
-> Frontend: [ScanLens Client](https://github.com/eslam-cmd/ScanLens-client)
+> Frontend: [ScanLens Client](https://github.com/eslam-hadaya/ScanLens-client)
 
 ## What the backend does
 
@@ -205,23 +205,23 @@ This request waits for the scan result directly and does not return a queue `job
 
 The routes below are declared in the current controllers and do not use an `/api` prefix:
 
-| Method | Route | Access | Purpose |
-|---|---|---|---|
-| `POST` | `/auth/register` | Public | Register and send verification OTP |
-| `POST` | `/auth/login` | Public | Check credentials and send OTP |
-| `POST` | `/auth/verify-otp` | Public | Verify OTP and issue JWT cookie |
-| `POST` | `/auth/forgot-password` | Public | Start password reset |
-| `POST` | `/auth/reset-password` | Public | Set a new password with reset token |
-| `POST` | `/scans/direct-scan` | Authenticated | Validate and enqueue a scan; returns 202 and job ID |
-| `GET` | `/scans/jobs/:jobId` | Job owner | Read queue job status and result |
-| `POST` | `/scans/guest-scan` | Public | Run a synchronous guest scan |
-| `GET` | `/scans/history` | Authenticated | Read the caller's scan history |
-| `GET` | `/scans/usage-window` | Authenticated | Read scan usage and reset window |
-| `GET` | `/scans/:id/export/csv` | Authenticated | Download a CSV report |
-| `GET` | `/scans/:id/export/pdf` | Authenticated | Download a PDF report |
-| `GET` | `/subscription/plans` | Public | List available plans |
-| `GET` | `/subscription/my-subscription` | Authenticated | Read caller's subscription |
-| `GET` | `/admin/users` | Admin | List users |
+| Method | Route                           | Access        | Purpose                                             |
+| ------ | ------------------------------- | ------------- | --------------------------------------------------- |
+| `POST` | `/auth/register`                | Public        | Register and send verification OTP                  |
+| `POST` | `/auth/login`                   | Public        | Check credentials and send OTP                      |
+| `POST` | `/auth/verify-otp`              | Public        | Verify OTP and issue JWT cookie                     |
+| `POST` | `/auth/forgot-password`         | Public        | Start password reset                                |
+| `POST` | `/auth/reset-password`          | Public        | Set a new password with reset token                 |
+| `POST` | `/scans/direct-scan`            | Authenticated | Validate and enqueue a scan; returns 202 and job ID |
+| `GET`  | `/scans/jobs/:jobId`            | Job owner     | Read queue job status and result                    |
+| `POST` | `/scans/guest-scan`             | Public        | Run a synchronous guest scan                        |
+| `GET`  | `/scans/history`                | Authenticated | Read the caller's scan history                      |
+| `GET`  | `/scans/usage-window`           | Authenticated | Read scan usage and reset window                    |
+| `GET`  | `/scans/:id/export/csv`         | Authenticated | Download a CSV report                               |
+| `GET`  | `/scans/:id/export/pdf`         | Authenticated | Download a PDF report                               |
+| `GET`  | `/subscription/plans`           | Public        | List available plans                                |
+| `GET`  | `/subscription/my-subscription` | Authenticated | Read caller's subscription                          |
+| `GET`  | `/admin/users`                  | Admin         | List users                                          |
 
 For the complete route list, check `@Controller()` and route decorators in `src/**/**.controller.ts`.
 
@@ -273,15 +273,15 @@ Prisma commands are invoked through `npx prisma`, as shown in Database setup.
 
 ## Troubleshooting
 
-| Symptom | Likely area to check |
-|---|---|
-| Prisma `P1001` / cannot reach database | `DATABASE_URL`, PostgreSQL status, host/port, TLS/network access |
-| Queue add fails or worker does not process jobs | `REDIS_URL`, Redis protocol access, queue name, worker registration |
-| `401 Unauthorized` | JWT cookie/header, token expiration, cookie/CORS settings |
-| `403 Forbidden` | Plan limits, role, or permission checks |
-| Target request times out | Target site availability, outbound network, DNS, timeout |
-| Browser reports CORS error | API CORS allowed origins and credentials; CORS is enforced by browsers |
-| Job status returns 404 | Wrong job ID, expired/removed Redis job, or job belongs to another user |
+| Symptom                                         | Likely area to check                                                    |
+| ----------------------------------------------- | ----------------------------------------------------------------------- |
+| Prisma `P1001` / cannot reach database          | `DATABASE_URL`, PostgreSQL status, host/port, TLS/network access        |
+| Queue add fails or worker does not process jobs | `REDIS_URL`, Redis protocol access, queue name, worker registration     |
+| `401 Unauthorized`                              | JWT cookie/header, token expiration, cookie/CORS settings               |
+| `403 Forbidden`                                 | Plan limits, role, or permission checks                                 |
+| Target request times out                        | Target site availability, outbound network, DNS, timeout                |
+| Browser reports CORS error                      | API CORS allowed origins and credentials; CORS is enforced by browsers  |
+| Job status returns 404                          | Wrong job ID, expired/removed Redis job, or job belongs to another user |
 
 ## Project structure
 
